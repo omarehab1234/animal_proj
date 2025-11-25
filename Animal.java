@@ -1,6 +1,6 @@
 
 import java.util.ArrayList;
-//5alst el dangerLvl , Reason dan , awarness Hum , na2s location wa el invasive boom ta5
+//5alst el dangerLvl , Reason dan , awarness Hum ,invasive, na2s location
 public abstract class Animal {
     private String name ,dangerLvl;
     private ArrayList<Location> locations = new ArrayList<>();
