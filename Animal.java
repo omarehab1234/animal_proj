@@ -3,13 +3,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 //5alst el dangerLvl , Reason dan , awarness Hum ,invasive, na2s location
 public abstract class Animal {
-    private String name ,dangerLvl;
+    private String name ,dangerLvl,type;
     private Location locations = new Location();
     private ArrayList<String> reasonForDanger = new ArrayList<>();
     private ArrayList<String> awarnessForHuman = new ArrayList<>();
     private ArrayList<String> invasiveSpecies = new ArrayList<>();
-    public Animal(String name, String danger , String location , String resFoDan , String awarForhuman , String invasSpe) {
+    public Animal(String name, String type,String danger , String location , String resFoDan , String awarForhuman , String invasSpe) {
         this.name = name;
+        this.type = type;
         dangerFilter(danger);
         filterLocation(location);
         filterawarnesHum(awarForhuman);
@@ -18,7 +19,7 @@ public abstract class Animal {
     }
     
     void  dangerFilter(String danger){
-        dangerLvl = danger.split(":")[1].replace("*", "");
+        dangerLvl = danger.split(":")[1].replaceAll("\\*", "");
         dangerLvl = dangerLvl.trim();
         
     }
@@ -26,7 +27,7 @@ public abstract class Animal {
     void filterResFDanger(String resDanger){
         String arr[] = resDanger.split(":")[1].split(",");
         for (int i = 0; i < arr.length; i++) {
-            reasonForDanger.add(arr[i].replaceFirst("\\band\\b", "").trim());
+            reasonForDanger.add(arr[i].replaceFirst("\\band\\b", "").replaceAll("\\*", "").trim());
         }
         System.out.println(reasonForDanger.size());
 
@@ -36,21 +37,21 @@ public abstract class Animal {
         String[] arr = humawrness.split("-");
         String[] result = Arrays.copyOfRange(arr, 1, arr.length);
         for (int i = 0; i < result.length; i++) {
-            awarnessForHuman.add(result[i].replace("\\t*", "").trim());
+            awarnessForHuman.add(result[i].replace("\\t*", "").replaceAll("\\*", "").trim());
         }
     }
     //invasive filter
     void invasiveFilter(String invasive){
         String arr[] = invasive.split(":")[1].split(",");
         for (int i = 0; i < arr.length; i++) {
-            invasiveSpecies.add(arr[i].replace("\\t*", "").trim());
+            invasiveSpecies.add(arr[i].replace("\\t*", "").replaceAll("\\*", "").trim());
         }
     }
     //here to add location and filter it
     void filterLocation(String loca){
 
         String location = loca.split(":")[1];
-        String name = location.split("\s\\(")[0].substring(2).trim();
+        String name = location.split("\s\\(")[0].replaceAll("\\*", "").trim();
         String x = location.substring(location.indexOf("(")+1,location.indexOf(",")).trim();
         String y = location.substring(location.indexOf(", ")+2,location.indexOf(")")).trim();
         System.out.println(location);
@@ -64,14 +65,15 @@ public abstract class Animal {
     }
     @Override
     public String toString() {
-        return "Animal{" +
-                "name='" + name + '\'' +
-                ", dangerLvl='" + dangerLvl + '\'' +
-                ", locations=" + locations +
-                ", reasonForDanger=" + reasonForDanger +
-                ", awarnessForHuman=" + awarnessForHuman +
-                ", invasiveSpecies=" + invasiveSpecies +
-                '}';
+        return 
+                "name='" + name + '\n' +
+                "Type='" + type + '\n' +
+                ", dangerLvl='" + dangerLvl + '\n' +
+                ", locations=" + locations + '\n' +
+                ", reasonForDanger=" + reasonForDanger +'\n' +
+                ", awarnessForHuman=" + awarnessForHuman +'\n' +
+                ", invasiveSpecies=" + invasiveSpecies 
+                ;
     }
     public String getName(){
         return name;
